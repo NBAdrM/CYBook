@@ -2,12 +2,22 @@ import com.sun.net.httpserver.Request;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class permits to manage all clients
+ */
 public class ClientManager {
 
     HashMap<Integer, Client> clients;
 
+    /**
+     * This method permits to add a client into the system.
+     * It defines a new ID by finding the biggest id number and adding 1.
+     * @param lastName;
+     * @param firstName;
+     * @param phone;
+     */
     public void addClient(String lastName, String firstName, String phone){
-
+        //Find a new ID
         int max=0;
         for(Map.Entry<Integer,Client> entry : clients.entrySet()){
             if(entry.getKey()>max){
@@ -21,6 +31,11 @@ public class ClientManager {
         System.out.println(clients.get(newID).toString() + "added");
     }
 
+    /**
+     * This method permits to remove a client from the system.
+     * It checks if the client have restored all book he had borrow.
+     * @param id;
+     */
     public void removeClient(int id){
 
         //TODO Verifier les emprunts en cours avant de supprimer
@@ -29,6 +44,14 @@ public class ClientManager {
 
     }
 
+    /**
+     * This method permits to change client's information.
+     * Information that should not be modified must be written as an empty character string "".
+     * @param id;
+     * @param lastName;
+     * @param firstName;
+     * @param phone;
+     */
     public void updateClient(int id,String lastName, String firstName, String phone){
 
         //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
@@ -44,6 +67,13 @@ public class ClientManager {
         System.out.println(clients.get(id).toString() + "updated");
     }
 
+    /**
+     * This method permits to search the id of a client by using is Last name or is First Name or is Phone number
+     * @param lastName;
+     * @param firstName;
+     * @param phone;
+     * @return id of the client or -1 if not found;
+     */
     public int searchClient(String lastName, String firstName, String phone){
 
         //Search the id of the client with is Last/First name or is phone number
