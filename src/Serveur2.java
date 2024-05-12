@@ -1,8 +1,11 @@
 import java.io.*;
 import java.net.*;
 
+/**
+ * Do a server and wait client to connect
+ */
 public class Serveur2 {
-    private static final int port = 5543; // Définition du port
+    private static final int port = 5543;
 
     public static void main(String[] argv) {
         ServerSocket serverSocket = null;
@@ -23,6 +26,12 @@ public class Serveur2 {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Reçu du client: " + inputLine);
+                switch (Integer.parseInt(inputLine)){
+                    case 201:
+                        ConnectDB db = new ConnectDB();
+                        db.RequestInsertDB("INSERT INTO `test` (`a`, `b`, `c`, `d`) VALUES ('3', '3', '3', '3'); ");
+                        break;
+                }
                 if ("End".equals(inputLine)) {
                     out.println("Au revoir!");
                     break;
@@ -38,6 +47,8 @@ public class Serveur2 {
             System.out.println("Exception caught when trying to listen on port "
                     + port + " or listening for a connection");
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
