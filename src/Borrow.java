@@ -20,7 +20,7 @@ public class Borrow {
      * @param client;
      * @param borrowDate;
      * @param book;
-     *
+     * @throws ParseException
      */
     public Borrow(int id, Client client, String borrowDate, Book book) throws ParseException {
         this.id = id;
