@@ -9,39 +9,48 @@ public class ClientManager {
 
     HashMap<Integer, Client> clients;
 
+    public ClientManager() {
+        this.clients = new HashMap<>();
+    }
+
     /**
      * This method permits to add a client into the system.
-     * It defines a new ID by finding the biggest id number and adding 1.
+     * It defines a new ID by looking from 0 to +inf if the number is already use for an ID
      * @param lastName;
      * @param firstName;
      * @param phone;
      */
     public void addClient(String lastName, String firstName, String phone){
-        //Find a new ID
-        int max=0;
-        for(Map.Entry<Integer,Client> entry : clients.entrySet()){
-            if(entry.getKey()>max){
-                max=entry.getKey();
+        int newID=0;
+        while(clients.containsKey(newID)){
+                newID+=1;
             }
-        }
-        int newID=max+1;
 
         Client client = new Client(newID, lastName, firstName, phone);
         clients.put(newID, client);
         System.out.println(clients.get(newID).toString() + "added");
+
     }
 
     /**
      * This method permits to remove a client from the system.
      * It checks if the client have restored all book he had borrow.
      * @param id;
+     * @param borrowManager;
      */
-    public void removeClient(int id){
+    public void removeClient(int id,BorrowManager borrowManager){
 
-        //TODO Verifier les emprunts en cours avant de supprimer
+        //Check if client restored all book he had borrow
+        for(Map.Entry<Integer,Borrow> entry : borrowManager.borrowing.entrySet()){
+            if(entry.getValue().getClient().getId()==id && entry.getValue().getRestore()!=Boolean.TRUE){
+                //TODO ne renvoie pas vraiment le nom du livre tant que Book est Artwork ne sont pas lié
+                System.out.println("The book" + entry.getValue().getBook().toString() + "have not been restored");
+                System.out.println("Client can't be removed");
+                return;
+            }
+        }
         clients.remove(id);
         System.out.println("Client removed");
-
     }
 
     /**
