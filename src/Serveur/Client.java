@@ -1,3 +1,5 @@
+package Serveur;
+
 public class Client {
     private final int id;
     private String lastName;

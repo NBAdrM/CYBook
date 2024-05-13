@@ -1,3 +1,5 @@
+package Serveur;
+
 /**
  * This enumeration defines the statue of a book, if it's free or borrow
  * Only use on book class

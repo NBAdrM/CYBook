@@ -1,3 +1,5 @@
+package Serveur;
+
 public class Artwork {
     private int id;
     private String title;
