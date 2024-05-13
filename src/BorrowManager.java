@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public class BorrowManager {
 
-    HashMap<Integer,Borrow> borrowing;
-    HashMap<Integer,Borrow> history;
+    private HashMap<Integer,Borrow> borrowing;
+    private HashMap<Integer,Borrow> history;
 
     public BorrowManager() {
         this.borrowing = new HashMap<>();
@@ -58,5 +58,9 @@ public class BorrowManager {
 
     public void getPopularBook(){
 
+    }
+
+    public HashMap<Integer, Borrow> getBorrowing() {
+        return borrowing;
     }
 }

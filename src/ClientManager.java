@@ -41,7 +41,7 @@ public class ClientManager {
     public void removeClient(int id,BorrowManager borrowManager){
 
         //Check if client restored all book he had borrow
-        for(Map.Entry<Integer,Borrow> entry : borrowManager.borrowing.entrySet()){
+        for(Map.Entry<Integer,Borrow> entry : borrowManager.getBorrowing().entrySet()){
             if(entry.getValue().getClient().getId()==id && entry.getValue().getRestore()!=Boolean.TRUE){
                 //TODO ne renvoie pas vraiment le nom du livre tant que Book est Artwork ne sont pas lié
                 System.out.println("The book" + entry.getValue().getBook().toString() + "have not been restored");
