@@ -1,4 +1,4 @@
-package Serveur;
+package serveur.model;
 
 public class Artwork {
     private int id;

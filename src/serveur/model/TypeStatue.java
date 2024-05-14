@@ -1,4 +1,4 @@
-package Serveur;
+package serveur.model;
 
 /**
  * This enumeration defines the statue of a book, if it's free or borrow

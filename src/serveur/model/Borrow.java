@@ -1,4 +1,4 @@
-package Serveur;
+package serveur.model;
 
 import java.text.ParseException;
 import java.time.LocalDate;

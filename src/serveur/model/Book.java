@@ -1,4 +1,4 @@
-package Serveur;
+package serveur.model;
 
 /**
  * This class define books

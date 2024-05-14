@@ -1,4 +1,4 @@
-package Serveur;
+package serveur.model;
 
 public class Client {
     private final int id;

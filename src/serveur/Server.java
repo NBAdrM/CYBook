@@ -1,4 +1,4 @@
-package Serveur;
+package serveur;
 
 import java.io.*;
 import java.net.*;
@@ -6,7 +6,7 @@ import java.net.*;
 /**
  * Do a server and wait client to connect
  */
-public class Serveur2 {
+public class Server {
     private static final int port = 5543;
 
     public static void main(String[] argv) {
@@ -14,8 +14,8 @@ public class Serveur2 {
 
         try {
             //démarage serveur
-            serverSocket = new ServerSocket(Serveur2.port);
-            System.out.println("Serveur démarré sur le port " + Serveur2.port);
+            serverSocket = new ServerSocket(Server.port);
+            System.out.println("Serveur démarré sur le port " + Server.port);
             //attente de la connection client
             Socket clientSocket = serverSocket.accept();
             System.out.println("Client connecté.");
@@ -31,7 +31,7 @@ public class Serveur2 {
                 switch (Integer.parseInt(inputLine)){
                     case 201:
                         ConnectDB db = new ConnectDB();
-                        db.RequestInsertDB("INSERT INTO `test` (`a`, `b`, `c`, `d`) VALUES ('3', '3', '3', '3'); ");
+                        db.requestInsertDB("INSERT INTO `test` (`a`, `b`, `c`, `d`) VALUES ('3', '3', '3', '3'); ");
                         break;
                 }
                 if ("End".equals(inputLine)) {

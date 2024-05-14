@@ -1,13 +1,9 @@
-package Serveur;
+package serveur;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Properties;
 
 /**
  * This class is for have a connexion to a MySQL database
@@ -60,7 +56,7 @@ public class ConnectDB {
         return output;
     }
 
-    public void RequestInsertDB(String request) throws Exception{
+    public void requestInsertDB(String request) throws Exception{
         Connection conn = DriverManager.getConnection(url, user, pwd);
         Statement stmt = conn.createStatement();
 

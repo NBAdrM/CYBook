@@ -1,4 +1,4 @@
-package Serveur;
+package serveur;
 
 public class SearchBook {
 }
