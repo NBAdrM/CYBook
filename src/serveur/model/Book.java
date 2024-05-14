@@ -3,12 +3,13 @@ package serveur.model;
 /**
  * This class define books
  */
-public class Book {
+public class Book extends Artwork{
     private int ISBN;
     private TypeStatue statue;
     private String editor;
 
-    public Book(int ISBN, TypeStatue statue, String editor) {
+    public Book(int ISBN, TypeStatue statue, String editor, int id, String title, String author, int year, String genre) {
+        super(id,title,author,year,genre);
         this.ISBN = ISBN;
         this.statue = statue;
         this.editor = editor;
