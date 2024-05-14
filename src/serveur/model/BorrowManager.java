@@ -2,7 +2,8 @@ package serveur.model;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.*;
+
 
 /**
  * This class permits to manage all borrow
@@ -11,10 +12,12 @@ public class BorrowManager {
 
     private HashMap<Integer,Borrow> borrowing;
     private HashMap<Integer,Borrow> history;
+    private HashMap<Book,Integer> nbborrowperbook;
 
     public BorrowManager() {
         this.borrowing = new HashMap<>();
         this.history = new HashMap<>();
+        this.nbborrowperbook= new HashMap<>();
     }
 
     /**
@@ -57,8 +60,25 @@ public class BorrowManager {
         System.out.println("Book restored");
     }
 
-    public void getPopularBook(){
+    /**
+     * This method return a list of the book with more borrow
+     */
+    public void getPopularBook() {
+        // Establish a Hashmap with key : Book , value : number of Borrow
+        for (Integer key : history.keySet()) {
+            Borrow borrow = history.get(key);
+            Book book = borrow.getBook();
+            // Add to the hashmap the number of borrow
+            nbborrowperbook.put(book, nbborrowperbook.getOrDefault(book, 0) + 1);
+        }
+        // Create a list and sort that list by value decreasing
+        ArrayList<Map.Entry<Book, Integer>> list = new ArrayList<>(nbborrowperbook.entrySet());
+        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
+        System.out.println("Most popular book : ");
+        for (Map.Entry<Book, Integer> entry : list) {
+            System.out.println(entry.getKey() + " - Borrow number : " + entry.getValue());
+        }
     }
 
     public HashMap<Integer, Borrow> getBorrowing() {
