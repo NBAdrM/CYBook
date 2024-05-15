@@ -3,6 +3,7 @@ package serveur;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import serveur.model.Book;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,8 +12,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static serveur.model.TypeStatue.FREE;
+
 public class ConnectApi {
     private final static String apiUrl = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve";
+    private Book book;
 
     /**
      * Do a request to BNF API with isbn
@@ -37,9 +41,6 @@ public class ConnectApi {
         in.close();
         api.disconnect();
 
-        System.out.println("Réponse de l'API BNF Data :");
-        System.out.println(result);
-
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document parsXML = builder.parse(new java.io.ByteArrayInputStream(result.toString().getBytes()));
@@ -50,14 +51,12 @@ public class ConnectApi {
         NodeList data = parsXML.getElementsByTagName("mxc:datafield");
         String title = "";
         String author = "";
-        String publicationDate = "";
-
-        System.out.println(data.getLength());
+        String publicationYear = "";
+        String editor="";
 
         for (int i = 0; i < data.getLength(); i++) {
             Element dataField = (Element) data.item(i);
             String tag = dataField.getAttribute("tag");
-            System.out.println(tag);
             if (tag.equals("200")) {
                 NodeList subfields = dataField.getElementsByTagNameNS("*", "*");
                 title = getSubfield(subfields,"a");
@@ -68,9 +67,10 @@ public class ConnectApi {
             }
             if (tag.equals("214")){
                 NodeList subfields = dataField.getElementsByTagNameNS("*", "*");
-                publicationDate = getSubfield(subfields,"d");
+                publicationYear = getSubfield(subfields,"d");
             }
         }
+        book = new Book(Long.parseLong(isbn),FREE,editor,0,title,author,Integer.parseInt(publicationYear),"");
     }
 
     private String getSubfield(NodeList subfields, String find){
@@ -84,6 +84,9 @@ public class ConnectApi {
         return null;
     }
 
+    public Book getBook() {
+        return book;
+    }
 
     public static void main(String[] args){
         try {

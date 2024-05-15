@@ -13,9 +13,10 @@ public class User {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            int userInput = 201;
+            String userInput = "105 9782810627196";
             out.println(userInput);
-            System.out.println("Réponse du serveur: " + in.readLine());
+
+            out.println("150");
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);

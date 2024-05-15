@@ -1,5 +1,7 @@
 package serveur;
 
+import serveur.model.Book;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -64,6 +66,10 @@ public class ConnectDB {
 
         stmt.close();
         conn.close();
+    }
+
+    public void requestInsertBookDB(Book book) throws Exception{
+        requestInsertDB("INSERT INTO `book` (`isbn`, `statue`, `editor`, `title`,`year`,`genre`) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"','"+book.getYear()+"','"+book.getGenre()+"');");
     }
 
 }
