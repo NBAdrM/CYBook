@@ -1,13 +1,13 @@
 package serveur.model;
 
-public class Client {
+public class User {
     private final int id;
     private String lastName;
     private String firstName;
     private String phone;
 
     //Constructor
-    public Client(int id, String lastName, String firstName, String phone) {
+    public User(int id, String lastName, String firstName, String phone) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;

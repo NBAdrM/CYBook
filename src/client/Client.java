@@ -3,7 +3,7 @@ package client;
 import java.io.*;
 import java.net.*;
 
-public class User {
+public class Client {
     private static final String host = "localhost";
     private static final int port = 5543;
 

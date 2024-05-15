@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Borrow {
     private int id;
-    private Client client;
+    private User User;
     private LocalDate borrowDate;
     private LocalDate returnDate;
     private Boolean restore=Boolean.FALSE;
@@ -16,14 +16,14 @@ public class Borrow {
      * This constructor check if the format of borrowDate is "dd/MM/yyyy" and affect the returnDate 1 month after
      *
      * @param id;
-     * @param client;
+     * @param User;
      * @param borrowDate;
      * @param book;
      * @throws ParseException Error of date format
      */
-    public Borrow(int id, Client client, String borrowDate, Book book) throws ParseException {
+    public Borrow(int id, User User, String borrowDate, Book book) throws ParseException {
         this.id = id;
-        this.client = client;
+        this.User = User;
         this.book = book;
 
         // Force the format of borrowDate to "yyyy-MM-dd"
@@ -43,8 +43,8 @@ public class Borrow {
     public int getId() {
         return id;
     }
-    public Client getClient() {
-        return client;
+    public User getUser() {
+        return User;
     }
     public LocalDate getBorrowDate() {
         return borrowDate;
@@ -60,8 +60,8 @@ public class Borrow {
     }
 
     //Setter
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(User User) {
+        this.User = User;
     }
     public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
