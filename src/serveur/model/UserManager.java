@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class permits to manage all clients
+ * This class permits to manage all users
  */
 public class UserManager {
 

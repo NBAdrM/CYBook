@@ -21,13 +21,13 @@ public class BorrowManager {
     }
 
     /**
-     * This method permits to borrow a book for a specific client
+     * This method permits to borrow a book for a specific user
      *
      * @param book;
-     * @param client;
+     * @param user;
      * @throws ParseException Error of date format;
      */
-    public void borrow_book(Book book,Client client) throws ParseException {
+    public void borrow_book(Book book,User user) throws ParseException {
 
         if(book.getStatue().equals(TypeStatue.FREE)){
             //Find new ID available in borrowing
@@ -36,15 +36,15 @@ public class BorrowManager {
                 newID+=1;
             }
 
-            Borrow borrow = new Borrow(newID,client,LocalDate.now().toString(),book);
+            Borrow borrow = new Borrow(newID,user,LocalDate.now().toString(),book);
             borrowing.put(newID,borrow);
-            System.out.println(client.toString() + "have borrow" + book.toString());
+            System.out.println(user.toString() + "have borrow" + book.toString());
         }
         else{System.out.println("This book is not free");}
     }
 
     /**
-     * This method permits to return a book from a client
+     * This method permits to return a book from a user
      * @param id of the borrow;
      */
     public void return_book(int id){
