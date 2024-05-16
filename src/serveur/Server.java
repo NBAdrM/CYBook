@@ -40,6 +40,7 @@ public class Server {
                 //on lit les lignes envoyer par le client
                 String inputLine;
                 String[] inputLineSplit;
+
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Reçu du client: " + inputLine);
                     inputLineSplit = inputLine.split(" ");
@@ -47,7 +48,7 @@ public class Server {
                     switch (Integer.parseInt(inputLineSplit[0])) {
                         case 105:
                             Book book = new ConnectApi(inputLineSplit[1]).getBook();
-                            System.out.println(book.toString());
+                            out.println("201");
                             break;
                         case 150:
                             run=false;
