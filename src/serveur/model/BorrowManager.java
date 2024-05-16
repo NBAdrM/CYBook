@@ -1,5 +1,7 @@
 package serveur.model;
 
+import serveur.ConnectDB;
+
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.*;
@@ -14,10 +16,106 @@ public class BorrowManager {
     private HashMap<Integer,Borrow> history;
     private HashMap<Book,Integer> nbborrowperbook;
 
-    public BorrowManager() {
-        this.borrowing = new HashMap<>();
-        this.history = new HashMap<>();
+    public BorrowManager(String requestBorrow,String requestHistory, UserManager userManager) throws Exception {
         this.nbborrowperbook= new HashMap<>();
+
+        ConnectDB connectDB = new ConnectDB();
+        this.borrowing = new HashMap<>();
+        //Split lines and values
+        String[] lines = requestBorrow.split("/");
+        for(String line : lines){
+            String[] values = line.split(";");
+
+            if(values.length==5){
+                int id = Integer.parseInt(values[0]);
+
+                int userId = Integer.parseInt(values[1]);
+                User user = userManager.getUsers().get(userId);
+
+                String borrowDate = values[2];
+                String return_date = values[3];
+
+                //On recupère les informations du livre d'ID bookId pour crée un objet book pour le constructeur borow
+                int bookId = Integer.parseInt(values[4]);
+                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE id='"+user.getId()+"'");
+                String[] bookValues = infoBook.split(";");
+
+                if(bookValues.length==8){
+                    //TODO : Verifier ordre atribut avec la table d'Adrien
+                    int ISBN = Integer.parseInt(bookValues[0]);
+
+                    String stringStatue = bookValues[1];
+                    TypeStatue statue;
+                    if(stringStatue.equals("FREE")){
+                        statue=TypeStatue.FREE;
+                    }else{ statue=TypeStatue.BORROW;}
+
+                    String editor = bookValues[2];
+                    String title = bookValues[3];
+                    String author = bookValues[4];
+                    int year = Integer.parseInt(bookValues[5]);
+                    String genre = bookValues[6];
+                    Book book = new Book(ISBN,statue,editor,title,author,year,genre);
+                    borrowing.put(id,new Borrow(id,user,borrowDate,return_date,book));
+                }
+                else{
+                    System.out.println("The lines doesn't have all the values wanted");}
+                    return;
+            }
+            else{
+                System.out.println("The lines doesn't have all the values wanted");
+                return;
+            }
+        }
+
+        //On fait la même chose pour history
+        this.history = new HashMap<>();
+        String[] linesHistory = requestHistory.split("/");
+        for(String line : linesHistory){
+            String[] values = line.split(";");
+
+            if(values.length==5){
+                int id = Integer.parseInt(values[0]);
+
+                int userId = Integer.parseInt(values[1]);
+                User user = userManager.getUsers().get(userId);
+
+                String borrowDate = values[2];
+                String return_date = values[3];
+
+                //On recupère les informations du livre d'ID bookId pour crée un objet book pour le constructeur borow
+                int bookId = Integer.parseInt(values[4]);
+                String infoBook = connectDB.RequestSelectDB("SELECT * FROM book WHERE id='"+user.getId()+"'");
+                String[] bookValues = infoBook.split(";");
+
+                if(bookValues.length==8){
+                    //TODO : Verifier ordre atribut avec la table d'Adrien
+                    int ISBN = Integer.parseInt(bookValues[0]);
+
+                    String stringStatue = bookValues[1];
+                    TypeStatue statue;
+                    if(stringStatue.equals("FREE")){
+                        statue=TypeStatue.FREE;
+                    }else{
+                        statue=TypeStatue.BORROW;}
+
+                    String editor = bookValues[2];
+                    String title = bookValues[3];
+                    String author = bookValues[4];
+                    int year = Integer.parseInt(bookValues[5]);
+                    String genre = bookValues[6];
+                    Book book = new Book(ISBN,statue,editor,title,author,year,genre);
+                    history.put(id,new Borrow(id,user,borrowDate,return_date,book));
+                }
+                else{
+                    System.out.println("The lines doesn't have all the values wanted");}
+                return;
+            }
+            else{
+                System.out.println("The lines doesn't have all the values wanted");
+                return;
+            }
+        }
     }
 
     /**

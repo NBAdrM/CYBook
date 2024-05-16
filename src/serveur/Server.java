@@ -1,6 +1,9 @@
 package serveur;
 
 import serveur.model.Book;
+import serveur.model.BorrowManager;
+import serveur.model.User;
+import serveur.model.UserManager;
 
 import java.io.*;
 import java.net.*;
@@ -19,6 +22,12 @@ public class Server {
             serverSocket = new ServerSocket(Server.port);
             System.out.println("Serveur démarré sur le port " + Server.port);
             boolean run = true;
+
+            //Init objets
+            ConnectDB connectDB = new ConnectDB();
+            UserManager userManager = new UserManager(connectDB.RequestSelectDB("SELECT * FROM user"));
+            BorrowManager borrowManager = new BorrowManager(connectDB.RequestSelectDB("SELECT * FROM borrow"),connectDB.RequestSelectDB("SELECT * FROM history"),userManager);
+
             //attente de la connection client
             while (run) {
                 Socket clientSocket = serverSocket.accept();

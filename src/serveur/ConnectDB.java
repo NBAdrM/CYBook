@@ -16,8 +16,8 @@ public class ConnectDB {
     private String pwd;
 
     /**
-     * initilised parametre
-     * @throws Exception
+     * initialised parameter
+     * @throws Exception;
      */
     public ConnectDB() throws Exception{
         /*
@@ -38,7 +38,7 @@ public class ConnectDB {
      * Do a request to a database
      * @param request SQL request
      * @return String of return request
-     * @throws Exception
+     * @throws Exception;
      */
     public String RequestSelectDB(String request) throws Exception{
         Connection conn = DriverManager.getConnection(url, user, pwd);

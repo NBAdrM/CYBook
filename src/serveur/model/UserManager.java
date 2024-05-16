@@ -1,5 +1,7 @@
 package serveur.model;
 
+import serveur.ConnectDB;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +12,26 @@ public class UserManager {
 
     HashMap<Integer, User> Users;
 
-    public UserManager() {
+    public UserManager(String requestUser) {
+
         this.Users = new HashMap<>();
+
+        //Split lines and values
+        String[] lines = requestUser.split("/");
+        for(String line : lines){
+            String[] values = line.split(",");
+
+            if(values.length==4){
+                int id = Integer.parseInt(values[0]);
+                String lastName = values[1];
+                String firstName = values[2];
+                String phone = values[3];
+                Users.put(id,new User(id,lastName,firstName,phone));
+            }
+            else{
+                System.out.println("The lines doesn't have all the values wanted");
+            }
+        }
     }
 
     /**
@@ -21,7 +41,8 @@ public class UserManager {
      * @param firstName;
      * @param phone;
      */
-    public void addUser(String lastName, String firstName, String phone){
+    public void addUser(String lastName, String firstName, String phone) throws Exception {
+        ConnectDB connectDB = new ConnectDB();
         int newID=0;
         while(Users.containsKey(newID)){
                 newID+=1;
@@ -29,6 +50,7 @@ public class UserManager {
 
         User User = new User(newID, lastName, firstName, phone);
         Users.put(newID, User);
+        connectDB.requestInsertDB("INSERT into User (id,lastname,firstname,phone) VALUES ('"+User.getId()+"', '"+User.getLastName()+"', '"+User.getFirstName()+"', '"+User.getPhone()+"');");
         System.out.println(Users.get(newID).toString() + "added");
 
     }
@@ -40,12 +62,11 @@ public class UserManager {
      * @param borrowManager;
      */
     public void removeUser(int id,BorrowManager borrowManager){
-
+        //TODO : Supprimer la ligne dans la BDD
         //Check if User restored all book he had borrow
         for(Map.Entry<Integer,Borrow> entry : borrowManager.getBorrowing().entrySet()){
             if(entry.getValue().getUser().getId()==id && entry.getValue().getRestore()!=Boolean.TRUE){
-                //TODO ne renvoie pas vraiment le nom du livre tant que Book est Artwork ne sont pas lié
-                System.out.println("The book" + entry.getValue().getBook().toString() + "have not been restored");
+                System.out.println("The book" + entry.getValue().getBook().getTitle() + "have not been restored");
                 System.out.println("User can't be removed");
                 return;
             }
@@ -63,7 +84,7 @@ public class UserManager {
      * @param phone;
      */
     public void updateUser(int id,String lastName, String firstName, String phone){
-
+        //TODO : Modifier les infos dans la BDD
         //To give the possibility of changing only one element, we assume that if an element must not be changed it is the empty string
         if(!lastName.isEmpty()) {
             Users.get(id).setLastName(lastName);
@@ -94,5 +115,9 @@ public class UserManager {
         }
         System.out.println("User not found");
         return(-1);
+    }
+
+    public HashMap<Integer, User> getUsers() {
+        return Users;
     }
 }

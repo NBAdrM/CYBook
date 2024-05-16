@@ -1,15 +1,13 @@
 package serveur.model;
 
 public class Artwork {
-    private int id;
     private String title;
     private String author;
     private int year;
     private String genre;
 
     //Constructor
-    public Artwork(int id, String title, String author, int year, String genre) {
-        this.id = id;
+    public Artwork(String title, String author, int year, String genre) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -17,9 +15,6 @@ public class Artwork {
     }
 
     //Getter
-    public int getId() {
-        return id;
-    }
     public String getTitle() {
         return title;
     }
@@ -34,9 +29,6 @@ public class Artwork {
     }
 
     //Setter
-    public void setId(int id) {
-        this.id = id;
-    }
     public void setTitle(String title) {
         this.title = title;
     }

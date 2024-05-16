@@ -8,8 +8,8 @@ public class Book extends Artwork{
     private TypeStatue statue;
     private String editor;
 
-    public Book(long ISBN, TypeStatue statue, String editor, int id, String title, String author, int year, String genre) {
-        super(id,title,author,year,genre);
+    public Book(long ISBN, TypeStatue statue, String editor, String title, String author, int year, String genre) {
+        super(title,author,year,genre);
         this.ISBN = ISBN;
         this.statue = statue;
         this.editor = editor;

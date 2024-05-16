@@ -16,14 +16,14 @@ public class Borrow {
      * This constructor check if the format of borrowDate is "dd/MM/yyyy" and affect the returnDate 1 month after
      *
      * @param id;
-     * @param User;
+     * @param user;
      * @param borrowDate;
      * @param book;
      * @throws ParseException Error of date format
      */
-    public Borrow(int id, User User, String borrowDate, Book book) throws ParseException {
+    public Borrow(int id, User user, String borrowDate, Book book) throws ParseException {
         this.id = id;
-        this.User = User;
+        this.User = user;
         this.book = book;
 
         // Force the format of borrowDate to "yyyy-MM-dd"
@@ -36,6 +36,23 @@ public class Borrow {
 
         // Force the returnDate 1 month after the borrow
         this.returnDate = this.borrowDate.plusMonths(1);
+    }
+
+    public Borrow(int id, User user, String borrowDate, String returnDate,Book book) throws ParseException {
+        this.id=id;
+        this.User= user;
+        this.book=book;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            this.borrowDate = LocalDate.parse(borrowDate, formatter);
+        } catch (Exception e) {
+            throw new ParseException("The format needs to be 'year-mouth-day'", 0);
+        }
+        try {
+            this.returnDate = LocalDate.parse(returnDate, formatter);
+        } catch (Exception e) {
+            throw new ParseException("The format needs to be 'year-mouth-day'", 0);
+        }
     }
 
 
