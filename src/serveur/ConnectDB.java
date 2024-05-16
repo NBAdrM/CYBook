@@ -2,10 +2,7 @@ package serveur;
 
 import serveur.model.Book;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * This class is for have a connexion to a MySQL database
@@ -44,11 +41,19 @@ public class ConnectDB {
         Connection conn = DriverManager.getConnection(url, user, pwd);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(request);
+        ResultSetMetaData rsmd = rs.getMetaData();
 
         String output="";
+        int columnCount = rsmd.getColumnCount();
+
         while (rs.next()) {
-            output += rs.getString("a");
-            output += "/";
+            for (int i = 1; i <= columnCount; i++) {
+                output += rs.getString(i);
+                if (i < columnCount) {
+                    output += ";";
+                }
+            }
+            output+="/";
         }
 
         rs.close();
@@ -72,4 +77,12 @@ public class ConnectDB {
         requestInsertDB("INSERT INTO `book` (`isbn`, `statue`, `editor`, `title`,`year`,`genre`) VALUES ('"+book.getISBN()+"', '"+book.getStatue()+"', '"+book.getEditor()+"', '"+book.getTitle()+"','"+book.getYear()+"','"+book.getGenre()+"');");
     }
 
+
+    public static void main(String[] args){
+        try {
+            System.out.println(new ConnectDB().RequestSelectDB("SELECT * FROM test"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
